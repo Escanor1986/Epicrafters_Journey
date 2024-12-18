@@ -1,6 +1,13 @@
-package ej;
+package ej.blocs;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+import ej.exceptions.IllegalBlocException;
 
 public abstract class Bloc implements IBloc {
+
+    private static final Logger logger = LogManager.getLogger(Bloc.class);
 
     protected int longueur;
     protected int largeur;
@@ -8,7 +15,7 @@ public abstract class Bloc implements IBloc {
     protected Couleur couleur;
 
     // Constructeur avec vérification des valeurs et levée d'exception dés l'instanciation de la classe à la construction
-    public Bloc(final int longueur, final int largeur, final int hauteur) throws IllegalBlocException {
+    public Bloc(final int longueur, final int largeur, final int hauteur, final Couleur couleur) throws IllegalBlocException {
         if (longueur < MIN_LONGUEUR) {
             throw new IllegalBlocException("La longueur doit être au moins " + MIN_LONGUEUR + " (valeur reçue : " + longueur + ")");
         }
@@ -22,6 +29,9 @@ public abstract class Bloc implements IBloc {
         this.longueur = longueur;
         this.largeur = largeur;
         this.hauteur = hauteur;
+        this.couleur = couleur;
+
+        logger.debug("Un bloc de type {} a été construit.", this.getClass().getPackageName());
     }
 
     public int getLongueur() {

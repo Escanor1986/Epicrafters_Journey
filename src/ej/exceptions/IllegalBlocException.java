@@ -1,4 +1,4 @@
-package ej;
+package ej.exceptions;
 
 // Cette exception personnalisée hérite de "Exception" (pas RuntimeException)
 public class IllegalBlocException extends Exception {
