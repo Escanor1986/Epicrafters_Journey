@@ -1,37 +1,38 @@
 package ej.blocs;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import ej.exceptions.IllegalBlocException;
 
 public abstract class Bloc implements IBloc {
 
-    private static final Logger logger = LogManager.getLogger(Bloc.class);
+    private static Logger logger = LogManager.getLogger(Bloc.class);
 
     protected int longueur;
     protected int largeur;
     protected int hauteur;
     protected Couleur couleur;
 
-    // Constructeur avec vérification des valeurs et levée d'exception dés l'instanciation de la classe à la construction
     public Bloc(final int longueur, final int largeur, final int hauteur, final Couleur couleur) throws IllegalBlocException {
-        if (longueur < MIN_LONGUEUR) {
-            throw new IllegalBlocException("La longueur doit être au moins " + MIN_LONGUEUR + " (valeur reçue : " + longueur + ")");
+        if (longueur < MIN_LONGUEUR || largeur < MIN_LARGEUR || hauteur < MIN_HAUTEUR) {
+            logger.error("Les valeurs minimales pour longueur, largeur et hauteur n'ont pas été respectées.");
+            throw new IllegalBlocException();
         }
-        if (largeur < MIN_LARGEUR) {
-            throw new IllegalBlocException("La largeur doit être au moins " + MIN_LARGEUR + " (valeur reçue : " + largeur + ")");
-        }
-        if (hauteur < MIN_HAUTEUR) {
-            throw new IllegalBlocException("La hauteur doit être au moins " + MIN_HAUTEUR + " (valeur reçue : " + hauteur + ")");
-        }
-
         this.longueur = longueur;
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.couleur = couleur;
 
-        logger.debug("Un bloc de type {} a été construit.", this.getClass().getPackageName());
+        /* Bloc de code pour simuler un problème de performance. */
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            logger.error("Problème lors de la construction du bloc");
+        }
+        /* Fin du bloc de code pour simuler un problème de performance. */
+
+        logger.debug("Un bloc de type " + this.getClass().getSimpleName() + " a été construit.");
     }
 
     public int getLongueur() {

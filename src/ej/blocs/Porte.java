@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 import ej.exceptions.IllegalBlocException;
 import ej.exceptions.PorteVerrouilleException;
 
+import java.util.function.Predicate;
+
 public class Porte extends Bloc {
 
     private final static Logger logger = LogManager.getLogger(Porte.class);
@@ -29,6 +31,17 @@ public class Porte extends Bloc {
             throw new PorteVerrouilleException();
         } else {
             verrouillee = true;
+        }
+    }
+
+    public void forcerSerrure(Predicate<String> fonction) {
+        String cleSecrete = "#secret123";
+        if (this.verrouillee) {
+            if(fonction.test(cleSecrete)) {
+                this.verrouillee = false;
+            } else {
+                logger.debug("Impossible de créer le bloc");
+            }
         }
     }
 

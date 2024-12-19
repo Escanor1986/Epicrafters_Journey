@@ -3,6 +3,7 @@ package ej.kits;
 import java.io.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import ej.blocs.IBloc;
 import ej.exceptions.IllegalBlocException;
@@ -33,29 +34,23 @@ public class KitDemarrage {
     }
 
     public void afficherKit() {
-        System.out.println("Nombre de blocs dans le kit : " + blocs.size());
+        System.out.println("Nombre de bloc dans le kit : " + this.blocs.size());
         System.out.print("Liste des mots clés du kit : ");
-        for (String motCle : motsCles) {
-            System.out.print(motCle + " ");
-        }
+        // Consumer est une interface fonctionnelle native en Java
+        Consumer<String> fonctionAnonyme = System.out::print;
+        this.motsCles.forEach(fonctionAnonyme);
     }
 
-    // Méthode permettant d'écrire les données dans un fichier que l'on crée on the fly
     public void sauvegarder() {
-        // Construction de la chaîne de texte à écrire
         StringBuilder builder = new StringBuilder();
-        // Ajout de la première ligne de texte
-        builder.append("Kit de démarrage : \n");
+        builder.append("\n Kit de démarrage : \n");
         for(String motCle : motsCles) {
-            builder.append(motCle).append(" "); // Ajoute chaque mot clé suivi d'un espace
+            builder.append(motCle).append(" ");
         }
 
         try {
-            // Ouverture d'un BufferedWriter lié à un FileWriter pour le fichier "kit.txt"
             BufferedWriter writer = new BufferedWriter(new FileWriter("kit.txt"));
-            // Écriture de la chaîne construite dans le fichier
             writer.write(builder.toString());
-            // Fermeture du flux d'écriture pour éviter les fuites de ressources
             writer.close();
         } catch(IOException e) {
             logger.error("Impossible d'écrire dans le fichier : {}", String.valueOf(e));
